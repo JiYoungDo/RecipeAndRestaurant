@@ -6,4 +6,4 @@
 - 카카오 소셜 로그인 
 
 # 실행 화면
-![ezgif com-resize](https://user-images.githubusercontent.com/48639426/91317665-4e025180-e7f5-11ea-8468-eabdf80e7881.gif)
+![ezgif com-resize (1)](https://user-images.githubusercontent.com/48639426/91318175-e8629500-e7f5-11ea-8ffb-7e4c5cf336f0.gif)
