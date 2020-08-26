@@ -6,4 +6,4 @@
 - 카카오 소셜 로그인 
 
 # 실행 화면
-
+![Screenshot_1598452176](https://user-images.githubusercontent.com/48639426/91316939-632ab080-e7f4-11ea-9518-165d82940028.png)
