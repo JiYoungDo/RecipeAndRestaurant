@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorBg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    tools:context=".recipe.SearchResultActivity">
+
+    <ImageButton
+        android:id="@+id/search_result_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_keyboard_backspace_black_24dp"
+        android:background="@color/colorBg"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/search_result_recipe_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RECIPE_NM_KO"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:layout_marginTop="70dp" />
+
+    <ImageView
+        android:id="@+id/search_result_recipe_img_url"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_result_recipe_name"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/search_result_recipe_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SUMRY"
+        app:layout_constraintTop_toBottomOf="@id/search_result_recipe_img_url"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginTop="30dp" />
+
+    <TextView
+        android:id="@+id/search_result_recipe_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="COOKING_TIME"
+        app:layout_constraintTop_toBottomOf="@id/search_result_recipe_summary"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/search_result_recipe_calories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CALORIE"
+        app:layout_constraintTop_toBottomOf="@id/search_result_recipe_time"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/search_result_recipe_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PC_NM"
+        app:layout_constraintTop_toBottomOf="@id/search_result_recipe_calories"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/search_result_recipe_detail_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DET_URL"
+        app:layout_constraintTop_toBottomOf="@id/search_result_recipe_price"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="10dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorBg"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/relax_rstrnt_nm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RELAX_RSTRNT_NM"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <TextView
+        android:id="@+id/relax_add1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RELAX_ADD1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintTop_toBottomOf="@id/relax_rstrnt_nm"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <TextView
+        android:id="@+id/relax_gubun_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RELAX_GUBUN_DETAIL"
+        app:layout_constraintTop_toBottomOf="@+id/relax_add1"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/relax_rstrnt_tel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RELAX_RSTRNT_TEL"
+        app:layout_constraintTop_toBottomOf="@id/relax_gubun_detail"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
