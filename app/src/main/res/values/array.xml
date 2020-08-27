@@ -35,7 +35,6 @@
         <item>목포시</item>
         <item>보성군</item>
         <item>곡성군</item>
-
         <item>나주시</item>
         <item>가평군</item>
         <item>고양시</item>
@@ -49,7 +48,6 @@
         <item>함평군</item>
         <item>신안군</item>
         <item>영주시</item>
-
         <item>경산시</item>
         <item>칠곡군</item>
         <item>울진군</item>
@@ -63,7 +61,6 @@
         <item>영암군</item>
         <item>해남군</item>
         <item>완도군</item>
-
         <item>화순군</item>
         <item>장성군</item>
         <item>강진군</item>
@@ -77,7 +74,6 @@
         <item>화성시</item>
         <item>함안군</item>
         <item>김제시</item>
-
         <item>남원시</item>
         <item>무주군</item>
         <item>이천시</item>
@@ -91,7 +87,6 @@
         <item>전주시</item>
         <item>구미시</item>
         <item>예천군</item>
-
         <item>경주시</item>
         <item>수성구</item>
         <item>강서구</item>
@@ -105,7 +100,6 @@
         <item>달성군</item>
         <item>미추홀구</item>
         <item>공주시</item>
-
         <item>부여군</item>
         <item>서산시</item>
         <item>보은군</item>
@@ -119,7 +113,6 @@
         <item>철원군</item>
         <item>인제군</item>
         <item>김포시</item>
-
         <item>과천시</item>
         <item>금정구</item>
         <item>남동구</item>
@@ -133,7 +126,6 @@
         <item>아산시</item>
         <item>사상구</item>
         <item>사하구</item>
-
         <item>논산시</item>
         <item>수영구</item>
         <item>계룡시</item>
@@ -147,14 +139,11 @@
         <item>영동군</item>
         <item>음성군</item>
         <item>제천시</item>
-
         <item>하남시</item>
         <item>광명시</item>
         <item>의령군</item>
         <item>안동시</item>
         <item>홍성군</item>
-
-
     </string-array>
 
 

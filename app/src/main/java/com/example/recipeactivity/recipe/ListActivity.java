@@ -31,6 +31,7 @@ public class ListActivity extends AppCompatActivity {
     private ArrayList<RecipeItem> mArrayList;
     private RecyclerViewAdapter mAdapter;
     ImageButton back_btn;
+    String strNickname;
 
 
     @Override
@@ -39,11 +40,15 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         getSupportActionBar().hide();
 
+        Intent intent = getIntent();
+        strNickname = intent.getStringExtra("name");
+
         back_btn= findViewById(R.id.list_back_btn);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ListActivity.this, MainActivity.class);
+                intent.putExtra("name",strNickname);
                 startActivity(intent);
                 finish();
             }

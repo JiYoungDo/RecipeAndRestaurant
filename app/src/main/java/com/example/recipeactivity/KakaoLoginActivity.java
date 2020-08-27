@@ -91,7 +91,7 @@ public class KakaoLoginActivity extends AppCompatActivity {
                             Log.i("KAKAO_API","사용자 아이디: "+result.getId());
 
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.putExtra("name",String.valueOf(result.getKakaoAccount()));
+                            intent.putExtra("name",String.valueOf(result.getId()));
                             intent.putExtra("profile",result.getProfileImagePath());
                             startActivity(intent);
                             finish();

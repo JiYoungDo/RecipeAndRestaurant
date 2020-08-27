@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -15,6 +16,8 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -45,9 +48,11 @@ public class MainActivity extends AppCompatActivity {
     ImageButton list_btn;
     ImageButton search_btn;
 
+
     // SearchResultActivity 로 보낼 값들 : 7개고 모두 스트링
     String recipe_nm_ko, summary, cooking_time, calorie, pc_nm, det_url, img;
     String strNickname;
+    String strId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,18 +60,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
+
+
         mContext = getApplicationContext();
-        // 해시키 가져오기
-        getHashKey(mContext);
+        // 해시키 가져오기 _ 카카오에서 필요해서 알아보기 위해 썼다.
+        // getHashKey(mContext);
 
         MyAsyncTask mProcessTask = new MyAsyncTask();
         mProcessTask.execute();
 
 
         TextView tvNickname = findViewById(R.id.main_tv_user_id);
-
         Intent intent = getIntent();
         strNickname = intent.getStringExtra("name");
+
         tvNickname.setText(strNickname);
 
         Button btnLogout = findViewById(R.id.main_btn_logout);
@@ -92,7 +99,11 @@ public class MainActivity extends AppCompatActivity {
         list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Animation startAnimation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.clickblink);
+                list_btn.startAnimation(startAnimation);
+
                 Intent intent = new Intent(MainActivity.this, ListActivity.class);
+                intent.putExtra("name",strNickname);
                 startActivity(intent);
                 finish();
             }
@@ -101,7 +112,11 @@ public class MainActivity extends AppCompatActivity {
         search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Animation startAnimation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.clickblink);
+                search_btn.startAnimation(startAnimation);
+
                 Intent intent = new Intent(MainActivity.this, NearRestaurantActivity.class);
+                intent.putExtra("name",strNickname);
                 startActivity(intent);
                 finish();
             }

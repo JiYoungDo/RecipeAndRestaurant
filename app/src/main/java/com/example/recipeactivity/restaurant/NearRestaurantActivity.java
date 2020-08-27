@@ -17,10 +17,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.recipeactivity.MainActivity;
 
@@ -46,16 +49,15 @@ public class NearRestaurantActivity extends AppCompatActivity {
     ImageButton back_btn, search_btn;
     Spinner spinner_do, spinner_si;
     ArrayList<RestaurantItem> mArrayList = new ArrayList<>(); // 모든 아이템들을 담을 어레이 리스트
-    ArrayList<String> list_do = new ArrayList<>();
-    ArrayList<String> list_si = new ArrayList<>();
-    ArrayList<String> list_do2 = new ArrayList<>();
-    ArrayList<String> list_si2 = new ArrayList<>();
+    ArrayList<RestaurantItem> mArrayList2 = new ArrayList<>(); // 모든 아이템들을 담을 어레이 리스트
+
     String selected_do, selected_si;
     RecyclerView mRecyclerview;
+    boolean IsOnSearch = false;
+    String strNickname;
 
     RestaurantViewAdapter mAdapter;
-    ArrayList<RestaurantItem> mAdaptArrayList;
-
+    ArrayList<RestaurantItem> mAdaptArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,25 +65,54 @@ public class NearRestaurantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_near_restaurant);
         getSupportActionBar().hide();
 
+        Intent intent = getIntent();
+        strNickname = intent.getStringExtra("name");
+
         back_btn = findViewById(R.id.near_back_btn);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NearRestaurantActivity.this, MainActivity.class);
+                intent.putExtra("name",strNickname);
                 startActivity(intent);
                 finish();
             }
         });
         search_btn = findViewById(R.id.near_search_btn);
+
         search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 스피너 값들 가져와서 맞는 정보들을 리스트 뷰로 보여준다. 리스트 뷰를 클릭하면 자세한 정보가 나오고, 전화로 연결도 가능
-                // 리스트를 롱 클릭하면 해당 식당으로 전화를 걸 수 있다. 스피너에서 선택한 값으로 리사이클 뷰에 들어갈 아이템들 바꿔주기
+                IsOnSearch = true;
+                mAdaptArrayList.clear();
+                Animation startAnimation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.clickblink);
+                search_btn.startAnimation(startAnimation);
+                // 스피너의 값에 따라 array 값을 바꿔 줘야 한다.
+
+                // mAdaptArrayList 를 조정
+                for(int i = 0; i<mArrayList.size(); i++) {
+                    if(mArrayList.get(i).getRELAX_SI_NM().equals(selected_do) && mArrayList.get(i).getRELAX_SIDO_NM().equals(selected_si))
+                    {
+                        mAdaptArrayList.add(mArrayList.get(i));
+                    }
+//                    Log.d("a",mArrayList.get(i).getRELAX_SI_NM());
+//                    Log.d("b",selected_do);
+//                    Log.d("d",String.valueOf(mArrayList2.get(i).getRELAX_SI_NM().equals(selected_do)));
+                }
+                mRecyclerview = findViewById(R.id.recyclerview_near_restaurant_list);
+                LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                mRecyclerview.setLayoutManager(mLinearLayoutManager);
+
+                mAdapter = new RestaurantViewAdapter(mAdaptArrayList);
+                mRecyclerview.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerview.getContext(), mLinearLayoutManager.getOrientation());
+                mRecyclerview.addItemDecoration(dividerItemDecoration);
             }
         });
-        // 리스트에 추가 하기 (mArrayList,list_do, list_si)
-        // mArrayList 에 json 형태들의 Restaurant 아이템들을 담아야 한다.
+
+        // 리스트에 추가 하기 (mArrayList,list_do, list_si)  &  mArrayList 에 json 형태들의 Restaurant 아이템들을 담아야 한다.
         NearRestaurantActivity.MyAsyncTask_1_1000 mProcessTask = new NearRestaurantActivity.MyAsyncTask_1_1000();
         mProcessTask.execute();
         NearRestaurantActivity.MyAsyncTask_1001_2000 mProcessTask2 = new NearRestaurantActivity.MyAsyncTask_1001_2000();
@@ -97,66 +128,51 @@ public class NearRestaurantActivity extends AppCompatActivity {
         NearRestaurantActivity.MyAsyncTask_6001_6601 mProcessTask7 = new NearRestaurantActivity.MyAsyncTask_6001_6601();
         mProcessTask7.execute();
 
+        if(IsOnSearch == false)
+        {
+            mRecyclerview = findViewById(R.id.recyclerview_near_restaurant_list);
+            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+            mRecyclerview.setLayoutManager(mLinearLayoutManager);
+
+            mAdapter = new RestaurantViewAdapter(mArrayList);
+            mRecyclerview.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerview.getContext(), mLinearLayoutManager.getOrientation());
+            mRecyclerview.addItemDecoration(dividerItemDecoration);
+        }
         spinner_do = findViewById(R.id.near_restaurant_do);
         spinner_si = findViewById(R.id.near_restaurant_si);
-
-        mRecyclerview = findViewById(R.id.recyclerview_near_restaurant_list);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerview.setLayoutManager(mLinearLayoutManager);
-
-        mAdaptArrayList = mArrayList;
-
-        mAdapter = new RestaurantViewAdapter(mAdaptArrayList);
-        mRecyclerview.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerview.getContext(),
-                mLinearLayoutManager.getOrientation());
-        mRecyclerview.addItemDecoration(dividerItemDecoration);
 
         spinner_do.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             // 스피너 선택시
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selected_do = String.valueOf(parent.getItemAtPosition(position));
-                Log.d("selected", selected_do);
-//                for(int i = 0; i<mArrayList.size();i++)
-//                {
-//                    if(mArrayList.get(i).getRELAX_SI_NM() == selected_do)
-//                    {
-//                        mAdaptArrayList.remove(mArrayList.get(i));
-//                        mAdapter.notifyDataSetChanged();
-//                    }
-//                }
-            }
+                Log.d("selected_do", selected_do);
 
+            }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
 
         spinner_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selected_si = String.valueOf(parent.getItemAtPosition(position));
-                Log.d("selected", selected_si);
-//                for(int i = 0; i<mArrayList.size();i++)
-//                {
-//                    if(mArrayList.get(i).getRELAX_SIDO_NM() == selected_si)
-//                    {
-//                        mAdaptArrayList.remove(mArrayList.get(i));
-//                        mAdapter.notifyDataSetChanged();
-//                    }
-//                }
-//
+                Log.d("selected_si", selected_si);
             }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
 
+        mAdapter.setOnItemClickListener(new RestaurantViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int pos) {
+                Toast.makeText(getApplicationContext(), "클릭이 불가합니다.",Toast.LENGTH_SHORT).show();
+            }
+        });
         mAdapter.setOnItemLongClickListener(new RestaurantViewAdapter.OnItemLongClickListener() {
             String RELAX_RSTRNT_TEL;
             @Override
@@ -234,20 +250,7 @@ public class NearRestaurantActivity extends AppCompatActivity {
 
                  for(int i = 0; i<1000; i++)
                  {
-                     mArrayList.add(posts[i]);
-                     list_do.add(posts[i].getRELAX_SI_NM()); // 경기도
-                     list_si.add(posts[i].getRELAX_SIDO_NM());
-                 }
-                 for(String data: list_do)
-                 {
-                     if(!list_do2.contains(data))
-                         list_do2.add(data);
-                 }
-
-                 for(String data: list_si)
-                 {
-                     if(!list_si2.contains(data))
-                         list_si2.add(data);
+                         mArrayList.add(posts[i]);
                  }
 
                  return posts;
@@ -305,19 +308,6 @@ public class NearRestaurantActivity extends AppCompatActivity {
                  for(int i = 0; i<1000; i++)
                  {
                      mArrayList.add(posts[i]);
-                     list_do.add(posts[i].getRELAX_SI_NM()); // 경기도
-                     list_si.add(posts[i].getRELAX_SIDO_NM());
-                 }
-                 for(String data: list_do)
-                 {
-                     if(!list_do2.contains(data))
-                         list_do2.add(data);
-                 }
-
-                 for(String data: list_si)
-                 {
-                     if(!list_si2.contains(data))
-                         list_si2.add(data);
                  }
                  return posts;
 
@@ -374,21 +364,7 @@ public class NearRestaurantActivity extends AppCompatActivity {
                  for(int i = 0; i<1000; i++)
                  {
                      mArrayList.add(posts[i]);
-                     list_do.add(posts[i].getRELAX_SI_NM()); // 경기도
-                     list_si.add(posts[i].getRELAX_SIDO_NM());
                  }
-                 for(String data: list_do)
-                 {
-                     if(!list_do2.contains(data))
-                         list_do2.add(data);
-                 }
-
-                 for(String data: list_si)
-                 {
-                     if(!list_si2.contains(data))
-                         list_si2.add(data);
-                 }
-
                  return posts;
 
              } catch (Exception e) {
@@ -444,19 +420,6 @@ public class NearRestaurantActivity extends AppCompatActivity {
                  for(int i = 0; i<1000; i++)
                  {
                      mArrayList.add(posts[i]);
-                     list_do.add(posts[i].getRELAX_SI_NM()); // 경기도
-                     list_si.add(posts[i].getRELAX_SIDO_NM());
-                 }
-                 for(String data: list_do)
-                 {
-                     if(!list_do2.contains(data))
-                         list_do2.add(data);
-                 }
-
-                 for(String data: list_si)
-                 {
-                     if(!list_si2.contains(data))
-                         list_si2.add(data);
                  }
 
                  return posts;
@@ -514,19 +477,6 @@ public class NearRestaurantActivity extends AppCompatActivity {
                  for(int i = 0; i<1000; i++)
                  {
                      mArrayList.add(posts[i]);
-                     list_do.add(posts[i].getRELAX_SI_NM()); // 경기도
-                     list_si.add(posts[i].getRELAX_SIDO_NM());
-                 }
-                 for(String data: list_do)
-                 {
-                     if(!list_do2.contains(data))
-                         list_do2.add(data);
-                 }
-
-                 for(String data: list_si)
-                 {
-                     if(!list_si2.contains(data))
-                         list_si2.add(data);
                  }
 
                  return posts;
@@ -584,19 +534,6 @@ public class NearRestaurantActivity extends AppCompatActivity {
                  for(int i = 0; i<1000; i++)
                  {
                      mArrayList.add(posts[i]);
-                     list_do.add(posts[i].getRELAX_SI_NM()); // 경기도
-                     list_si.add(posts[i].getRELAX_SIDO_NM());
-                 }
-                 for(String data: list_do)
-                 {
-                     if(!list_do2.contains(data))
-                         list_do2.add(data);
-                 }
-
-                 for(String data: list_si)
-                 {
-                     if(!list_si2.contains(data))
-                         list_si2.add(data);
                  }
 
                  return posts;
@@ -651,22 +588,9 @@ public class NearRestaurantActivity extends AppCompatActivity {
 
                  RestaurantItem[] posts = gson.fromJson(rootObject, RestaurantItem[].class);
 
-                 for(int i = 0; i<600; i++)
+                 for(int i = 0; i<1000; i++)
                  {
                      mArrayList.add(posts[i]);
-                     list_do.add(posts[i].getRELAX_SI_NM()); // 경기도
-                     list_si.add(posts[i].getRELAX_SIDO_NM());
-                 }
-                 for(String data: list_do)
-                 {
-                     if(!list_do2.contains(data))
-                         list_do2.add(data);
-                 }
-
-                 for(String data: list_si)
-                 {
-                     if(!list_si2.contains(data))
-                         list_si2.add(data);
                  }
 
                  return posts;
@@ -689,8 +613,4 @@ public class NearRestaurantActivity extends AppCompatActivity {
 
          }
      }
-
-
-
-
 }
